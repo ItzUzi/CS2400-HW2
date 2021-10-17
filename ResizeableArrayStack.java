@@ -1,33 +1,60 @@
+import java.util.Arrays;
+import java.util.EmptyStackException;
+
 public class ResizeableArrayStack<T> implements StackInterface<T>{
 
-    @Override
+    private T[] stack;
+    private int topIndex;
+    private static final int DEFAULT_CAPACITY = 50;
+    
+    public ResizeableArrayStack(){
+        this(DEFAULT_CAPACITY);
+    }
+    
+    public ResizeableArrayStack(int size){
+        @SuppressWarnings("unchecked")
+        T[] tempStack = (T[])new Object[size];
+        stack = tempStack;
+        topIndex = -1;
+    }
+    
     public void push(T newEntry) {
-        // TODO Auto-generated method stub
-        
+        ensureCapacity();
+        stack[topIndex + 1] = newEntry;
+        topIndex++;
     }
 
-    @Override
+    private void ensureCapacity(){
+        if(topIndex >= stack.length - 1){
+            int newLength = 2 * stack.length;
+            stack = Arrays.copyOf(stack, newLength);
+        }
+    }
+
     public T pop() {
-        // TODO Auto-generated method stub
-        return null;
+        T top = peek();
+        stack[topIndex] = null;
+        topIndex--;
+        return top;
     }
 
     @Override
     public T peek() {
-        // TODO Auto-generated method stub
-        return null;
+        if(isEmpty())
+            throw new EmptyStackException();
+        else
+            return stack[topIndex];
     }
 
     @Override
     public boolean isEmpty() {
-        // TODO Auto-generated method stub
-        return false;
+        return topIndex < 0;
     }
 
     @Override
     public void clear() {
-        // TODO Auto-generated method stub
-        
+        for(;topIndex > -1;topIndex--)
+            stack[topIndex] = null;
     }
     
 }
