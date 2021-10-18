@@ -4,17 +4,8 @@ public class LinkedStack<T> implements StackInterface<T>{
 
     private Node<T> topNode = new Node<T>();
 
-    char operators[] = new char[7];
-
     public LinkedStack(){
         topNode = null;
-        operators[0] = '+';
-        operators[1] = '-';
-        operators[2] = '*';
-        operators[3] = '/';
-        operators[4] = '^';
-        operators[5] = '(';
-        operators[6] = ')';
     }
 
     /**

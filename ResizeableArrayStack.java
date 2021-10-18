@@ -18,12 +18,19 @@ public class ResizeableArrayStack<T> implements StackInterface<T>{
         topIndex = -1;
     }
     
+    /**
+     * Pushes entry to top of stack
+     * @param anEntry entry to be pushed to top of stack
+     */
     public void push(T newEntry) {
         ensureCapacity();
         stack[topIndex + 1] = newEntry;
         topIndex++;
     }
 
+    /**
+     * Doubles capacity of stack if stack is full
+     */
     private void ensureCapacity(){
         if(topIndex >= stack.length - 1){
             int newLength = 2 * stack.length;
@@ -31,6 +38,10 @@ public class ResizeableArrayStack<T> implements StackInterface<T>{
         }
     }
 
+    /**
+     * Takes out top entry from stack
+     * @return Entry at top of stack
+     */
     public T pop() {
         T top = peek();
         stack[topIndex] = null;
@@ -38,7 +49,11 @@ public class ResizeableArrayStack<T> implements StackInterface<T>{
         return top;
     }
 
-    @Override
+    /**
+     * Returns top entry from stack without
+     * removing the object
+     * @return object at top of stack
+     */
     public T peek() {
         if(isEmpty())
             throw new EmptyStackException();
@@ -46,12 +61,17 @@ public class ResizeableArrayStack<T> implements StackInterface<T>{
             return stack[topIndex];
     }
 
-    @Override
+    /**
+     * Checks if stack is empty
+     * @return true if stack is empty
+     */
     public boolean isEmpty() {
         return topIndex < 0;
     }
 
-    @Override
+    /**
+     * clears stack from all entries
+     */
     public void clear() {
         for(;topIndex > -1;topIndex--)
             stack[topIndex] = null;
