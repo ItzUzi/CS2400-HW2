@@ -1,11 +1,18 @@
 public class ArrayStackTest {
     public static void main(String[] args) {
+
+        // Initiates post fix string
         String postFix = "ab*ca-/de*+";
         int result = solvePostFix(postFix);
 
         System.out.printf("The solution to '%s' is: %d\n", postFix, result);
     }
 
+    /**
+     * Solves postfix String
+     * @param postFix to solve
+     * @return int value of postfix
+     */
     private static int solvePostFix(String postFix){
         ResizeableArrayStack<Integer> valueStack = new ResizeableArrayStack<Integer>(10);
         int size = postFix.length();
@@ -15,9 +22,11 @@ public class ArrayStackTest {
         int val;
 
         while(count < size){
+            // checks if character is a number
             nextCharacter = postFix.charAt(count);
             boolean isLetter = Character.isLetter(nextCharacter);
             switch(nextCharacter){
+                // if next char is an operand, pop the last 2 values from stack
                 case '^':
                 case '+':
                 case '-':
@@ -26,9 +35,11 @@ public class ArrayStackTest {
                     int operandOne = valueStack.pop();
                     int operandTwo = valueStack.pop();
                     solution = result(operandOne, operandTwo, nextCharacter);
+                    //pushes solution from result()
                     valueStack.push(solution);
                     break;
                 default:
+                    // if next char is a letter, push the value onto stack
                     if(isLetter){
                         val = valueOfCharacter(nextCharacter);
                         valueStack.push(val);
@@ -38,10 +49,17 @@ public class ArrayStackTest {
 
             count++;
         }
-
+        // returns value of stack
         return valueStack.peek();
     }
 
+    /**
+     * depending on operation, do that to both operands
+     * @param op1 2nd value in operation, (x-op1)
+     * @param op2 1st value in operation, (op2-x)
+     * @param operation to be done on operands
+     * @return value of result of operation
+     */
     private static int result(int op1, int op2, char operation){
         int result;
 
@@ -69,10 +87,16 @@ public class ArrayStackTest {
 
         return result;
     }
-
+    
+    /**
+     * Gives value to a character
+     * @param check character to be given value
+     * @return int value of character
+     */
     private static int valueOfCharacter(char check){
         int result;
 
+        // Returns value based on char
         switch(check){
             case 'a':
                 result = 2;

@@ -10,9 +10,15 @@ public class LinkedStackTest {
 
     }
 
+    /**
+     * Converts an infix string into a post fix string
+     * @param infix which gets converted into a postfix string
+     * @return post fix string
+     */
     private static String convertToPostFix(String infix){
         LinkedStack<Character> operatorStack = new LinkedStack<Character>();
 
+        // Initializes the postfix return string
         String postfix = "";
         int length = infix.length();
         int counter = 0;
@@ -20,9 +26,11 @@ public class LinkedStackTest {
         char topOperator;
 
         while(counter < length){
+            //checks every char in String to check if it is a letter
             nextCharacter = infix.charAt(counter);
             boolean isLetter = Character.isLetter(nextCharacter);
 
+            // depending on the operand, it is assigned a value
             switch(nextCharacter){
                 case '^':
                     operatorStack.push(nextCharacter);
@@ -32,7 +40,8 @@ public class LinkedStackTest {
                 case '-':
                 case '*':
                 case '/':
-
+                    // Checks precedence of the operator as assigned by the precedenceCheck() method
+                    // pops top entry from stack
                     while(!operatorStack.isEmpty() && precedenceCheck(nextCharacter) <= precedenceCheck(operatorStack.peek())){
                         postfix += operatorStack.peek();
                         operatorStack.pop();
@@ -45,6 +54,8 @@ public class LinkedStackTest {
                     operatorStack.push(nextCharacter);
                     break;
                 case ')':
+                    // pops top operator from stack
+                    // keeps popping until open parenthesis is at top
                     topOperator = operatorStack.pop();
                     while(topOperator != '('){
                         postfix += topOperator;
@@ -67,10 +78,17 @@ public class LinkedStackTest {
 
         return postfix;
     }
-
+    
+    /**
+     * Assigns value of precendence to each operator
+     * @param operator, value to assign precedence
+     * @return value of precedence from operator
+     */
     private static int precedenceCheck(char operator){
         int value;
 
+        // each operator is assigned a value
+        // in accordance to Order of Operations
         switch(operator){
             case '+':
             case '-':
